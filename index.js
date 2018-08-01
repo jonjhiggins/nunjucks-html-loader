@@ -17,7 +17,7 @@ module.exports = function(content) {
 		Object.assign(nunjEnv.filters, opt.filters);
 	}
 
-	if (opt.filters.md) {
+	if (opt.filters && opt.filters.md) {
 		markdownTag.register(nunjEnv, opt.filters.md);
 	}
 
