@@ -5,6 +5,7 @@ var nunjucks = require("nunjucks");
 var markdownTag = require("nunjucks-markdown");
 
 module.exports = function(content) {
+	var callback = this.async();
 	var opt = utils.getOptions(this);
 	var nunjucksSearchPaths = opt.searchPaths;
 	var nunjucksContext = opt.context;
@@ -34,5 +35,10 @@ module.exports = function(content) {
 	var template = nunjucks.compile(content, nunjEnv);
 	html = template.render(nunjucksContext);
 
-	return html;
+	template.render(nunjucksContext, (err, res) => {
+		if (err) {
+			return callback(new Error(err))
+		}
+		callback(null, res);
+	});
 };
