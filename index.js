@@ -9,13 +9,15 @@ module.exports = function(content) {
 	var opt = utils.getOptions(this);
 	var nunjucksSearchPaths = opt.searchPaths;
 	var nunjucksContext = opt.context;
-	var nunjEnv = new nunjucks.Environment(
-		new nunjucks.FileSystemLoader(nunjucksSearchPaths)
-	);
 	var defaultConfig = { watch: false };
 	var config = opt.nunjucksConfigureOptions ? Object.assign({}, defaultConfig, opt.nunjucksConfigureOptions) : defaultConfig
 
 	nunjucks.configure(null, config);
+
+	var nunjEnv = new nunjucks.Environment(
+		new nunjucks.FileSystemLoader(nunjucksSearchPaths),
+		config
+	);
 
 	if (opt.filters) {
 		Object.assign(nunjEnv.filters, opt.filters);
