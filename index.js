@@ -12,7 +12,10 @@ module.exports = function(content) {
 	var nunjEnv = new nunjucks.Environment(
 		new nunjucks.FileSystemLoader(nunjucksSearchPaths)
 	);
-	nunjucks.configure(null, { watch: false });
+	var defaultConfig = { watch: false };
+	var config = opt.nunjucksConfigureOptions ? Object.assign({}, defaultConfig, opt.nunjucksConfigureOptions) : defaultConfig
+
+	nunjucks.configure(null, config);
 
 	if (opt.filters) {
 		Object.assign(nunjEnv.filters, opt.filters);
